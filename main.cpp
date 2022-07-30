@@ -69,6 +69,8 @@ int main()
 extern "C" void DMA2D_IRQHandler(void)
 {
     led1 = 1;
+    //Clear the flag
+    DMA2D->IFCR |= DMA2D_ISR_TCIF; 
     //printf("DMA2D IRQ\n");
     //HAL_DMA2D_IRQHandler();
 }
