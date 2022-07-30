@@ -51,6 +51,9 @@ int main()
     printf("Pixel Count ..%x\n", (80<<16|1));
     // Now enable a transfer
     DMA2D->CR = DMA2D->CR | DMA2D_CR_START;
+    while(DMA2D->CR & DMA2D_CR_START);
+
+    
     // Check ISR reg
     printf("ISR status is ..%x and CR is ...%x\n", DMA2D->ISR, DMA2D->CR);
 
