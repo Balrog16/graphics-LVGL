@@ -7,6 +7,7 @@
 #include "stlogo.h"
 
 DigitalOut led(LED1, 1);
+DigitalOut led1(LED2, 0);
 // Blinking rate in milliseconds
 #define BLINKING_RATE 500ms
 uint32_t pDest[64];
@@ -19,7 +20,7 @@ void lubdub()
 int main()
 {
 
-    printf("DMA2D Experiments - 1\n");
+    printf("DMA2D Experiments - 2\n");
     Ticker alive;
     alive.attach(&lubdub, BLINKING_RATE);
 
@@ -35,6 +36,10 @@ int main()
     tmpreg = READ_BIT(RCC->AHB1ENR, RCC_AHB1ENR_DMA2DEN);
     printf("After enabling...DMA2D clock enable status...%x\n", tmpreg);
 
+    // Enable Interrupts
+    HAL_NVIC_SetPriority(DMA2D_IRQn, 5, 0);
+    HAL_NVIC_EnableIRQ(DMA2D_IRQn);
+    
     // Fill a rectangle
     // Set DMA2D config
     DMA2D->CR = 0x00030000UL; //Only fill a memory not copy
@@ -43,10 +48,12 @@ int main()
     DMA2D->OOR = 0; // Don't skip any pixels
     DMA2D->OPFCCR = 0; // ARGB8888
     DMA2D->OCOLR = 0x00005a5a; //some 32 bit number
+    // Set the interrupt flag
+    DMA2D->CR |= DMA2D_CR_TCIE;
     //Start filling
     DMA2D->CR |= DMA2D_CR_START; 
 
-    while(DMA2D->CR & DMA2D_CR_START);
+    //while(DMA2D->CR & DMA2D_CR_START);
 
     
     // Check ISR reg
@@ -61,6 +68,7 @@ int main()
 
 extern "C" void DMA2D_IRQHandler(void)
 {
-    printf("DMA2D IRQ\n");
-    // HAL_DMA2D_IRQHandler();
+    led1 = 1;
+    //printf("DMA2D IRQ\n");
+    //HAL_DMA2D_IRQHandler();
 }
