@@ -36,15 +36,15 @@ int main()
     printf("After enabling...DMA2D clock enable status...%x\n", tmpreg);
 
     // Set DMA2D config
-    DMA2D->FGPFCCR = DMA2D_RGB565;
-    DMA2D->FGCOLR = 0;
+    //DMA2D->FGPFCCR = DMA2D_RGB565;
+   // DMA2D->FGCOLR = 0;
     DMA2D->FGMAR = (uint32_t)stlogo;
-    DMA2D->FGOR = 0;
+   // DMA2D->FGOR = 0;
     DMA2D->CR = DMA2D_M2M;
-    DMA2D->OPFCCR = DMA2D_RGB565;
-    DMA2D->OCOLR = 0;
+   // DMA2D->OPFCCR = DMA2D_RGB565;
+   // DMA2D->OCOLR = 0;
     DMA2D->OMAR = (uint32_t)pDest;
-    DMA2D->OOR = 0;
+   // DMA2D->OOR = 0;
     DMA2D->NLR = (uint32_t)((80 < 16) | 1);
     
 
