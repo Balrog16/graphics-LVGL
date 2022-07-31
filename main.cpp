@@ -37,6 +37,7 @@ void display_init()
     BSP_LCD_DisplayOff();
     HAL_Delay(2000);
     BSP_LCD_DisplayOn();
+    BSP_LCD_FillRect(10, 10, 40, 40);
     
 }   
 void lubdub()
