@@ -6,7 +6,7 @@
 #include "mbed.h"
 #include "stlogo.h"
 #include "stm32f4xx.h"
-#include "BSP/stm32f429i_discovery_lcd.h"
+
 
 DigitalOut led(LED1, 1);
 DigitalOut led1(LED2, 0);

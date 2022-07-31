@@ -1,14 +1,14 @@
 /**
   ******************************************************************************
-  * @file    fonts.h
+  * @file    lcd.h
   * @author  MCD Application Team
-  * @version V1.0.0
-  * @date    18-February-2014
-  * @brief   Header for fonts.c file
+  * @version V4.0.1
+  * @date    21-July-2015
+  * @brief   This file contains all the functions prototypes for the LCD driver.   
   ******************************************************************************
   * @attention
   *
-  * <h2><center>&copy; COPYRIGHT(c) 2014 STMicroelectronics</center></h2>
+  * <h2><center>&copy; COPYRIGHT(c) 2015 STMicroelectronics</center></h2>
   *
   * Redistribution and use in source and binary forms, with or without modification,
   * are permitted provided that the following conditions are met:
@@ -33,74 +33,74 @@
   * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
   *
   ******************************************************************************
-  */
+  */ 
 
 /* Define to prevent recursive inclusion -------------------------------------*/
-#ifndef __FONTS_H
-#define __FONTS_H
+#ifndef __LCD_H
+#define __LCD_H
 
 #ifdef __cplusplus
  extern "C" {
-#endif
+#endif 
 
 /* Includes ------------------------------------------------------------------*/
 #include <stdint.h>
-
-/** @addtogroup Utilities
-  * @{
-  */
-  
-/** @addtogroup STM32_EVAL
-  * @{
-  */ 
-
-/** @addtogroup Common
+   
+/** @addtogroup BSP
   * @{
   */
 
-/** @addtogroup FONTS
+/** @addtogroup Components
   * @{
-  */ 
+  */
 
-/** @defgroup FONTS_Exported_Types
+/** @addtogroup LCD
   * @{
-  */ 
-typedef struct _tFont
-{    
-  const uint8_t *table;
-  uint16_t Width;
-  uint16_t Height;
+  */
+ 
+/** @defgroup LCD_Exported_Types
+  * @{
+  */
+
+/** @defgroup LCD_Driver_structure  LCD Driver structure
+  * @{
+  */
+typedef struct
+{
+  void     (*Init)(void);
+  uint16_t (*ReadID)(void);
+  void     (*DisplayOn)(void);
+  void     (*DisplayOff)(void);
+  void     (*SetCursor)(uint16_t, uint16_t);
+  void     (*WritePixel)(uint16_t, uint16_t, uint16_t);
+  uint16_t (*ReadPixel)(uint16_t, uint16_t);
   
-} sFONT;
-
-extern sFONT Font24;
-extern sFONT Font20;
-extern sFONT Font16;
-extern sFONT Font12;
-extern sFONT Font8;
+   /* Optimized operation */
+  void     (*SetDisplayWindow)(uint16_t, uint16_t, uint16_t, uint16_t);
+  void     (*DrawHLine)(uint16_t, uint16_t, uint16_t, uint16_t);
+  void     (*DrawVLine)(uint16_t, uint16_t, uint16_t, uint16_t);
+  
+  uint16_t (*GetLcdPixelWidth)(void);
+  uint16_t (*GetLcdPixelHeight)(void);
+  void     (*DrawBitmap)(uint16_t, uint16_t, uint8_t*);
+  void     (*DrawRGBImage)(uint16_t, uint16_t, uint16_t, uint16_t, uint8_t*);
+}LCD_DrvTypeDef;    
 /**
   * @}
-  */ 
-
-/** @defgroup FONTS_Exported_Constants
-  * @{
-  */ 
-#define LINE(x) ((x) * (((sFONT *)BSP_LCD_GetFont())->Height))
+  */
 
 /**
   * @}
-  */ 
+  */
 
-/** @defgroup FONTS_Exported_Macros
-  * @{
-  */ 
 /**
   * @}
-  */ 
+  */
 
-/** @defgroup FONTS_Exported_Functions
-  * @{
-  */ 
+/**
+  * @}
+  */
+
 /**
   * @}
   */
@@ -108,27 +108,7 @@ extern sFONT Font8;
 #ifdef __cplusplus
 }
 #endif
-  
-#endif /* __FONTS_H */
- 
-/**
-  * @}
-  */
 
-/**
-  * @}
-  */ 
-
-/**
-  * @}
-  */
-
-/**
-  * @}
-  */
-
-/**
-  * @}
-  */      
+#endif /* __LCD_H */
 
 /************************ (C) COPYRIGHT STMicroelectronics *****END OF FILE****/
