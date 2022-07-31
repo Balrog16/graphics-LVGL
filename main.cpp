@@ -6,6 +6,7 @@
 #include "mbed.h"
 #include "stlogo.h"
 #include "stm32f4xx.h"
+#include "BSP/STM32F429I-Discovery/stm32f429i_discovery_lcd.h"
 
 
 DigitalOut led(LED1, 1);
@@ -14,6 +15,30 @@ DigitalOut led1(LED2, 0);
 #define BLINKING_RATE 500ms
 uint32_t pDest[64];
 
+
+void LOGERR(const std::string errMSG, const uint32_t &err, const std::string errFunc)
+{
+  printf("[%s] %s %d\n", errFunc.c_str(), errMSG.c_str(), err);
+}
+
+
+void display_init()
+{
+    auto ret = 0U;
+    ret = BSP_LCD_Init();
+    LOGERR("BSP_LCD_Init", ret, "display_init");
+    // Apply the Layer configuration using LCD_LayerDefaultInit() function   
+    BSP_LCD_LayerDefaultInit(0, SDRAM_DEVICE_ADDR); 
+    // Select the LCD layer to be used using LCD_SelectLayer() function.
+    BSP_LCD_SelectLayer(0);
+    // Enable the LCD display using LCD_DisplayOn() function.
+    BSP_LCD_SetLayerVisible(0, ENABLE);
+    //
+    BSP_LCD_DisplayOff();
+    HAL_Delay(2000);
+    BSP_LCD_DisplayOn();
+    
+}   
 void lubdub()
 {
     led = !led;
@@ -22,7 +47,7 @@ void lubdub()
 int main()
 {
 
-    printf("DMA2D Experiments - 2\n");
+    printf("DMA2D Experiments - 3\n");
     Ticker alive;
     alive.attach(&lubdub, BLINKING_RATE);
 
@@ -64,6 +89,8 @@ int main()
     printf("Data in Dest is ...%x %x %x\n", pDest[0], pDest[1], pDest[2] );
     //printf("Data in Source is ...%x %x %x\n", stlogo[0], stlogo[1], stlogo[2] );
     
+    display_init();
+
     while (1)
         ;
 }
