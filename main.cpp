@@ -34,10 +34,13 @@ void display_init()
     // Enable the LCD display using LCD_DisplayOn() function.
     BSP_LCD_SetLayerVisible(0, ENABLE);
     //
+    BSP_LCD_SetTextColor(LCD_COLOR_DARKGREEN);
     BSP_LCD_DisplayOff();
     HAL_Delay(2000);
     BSP_LCD_DisplayOn();
+    BSP_LCD_SetBackColor(LCD_COLOR_LIGHTYELLOW);
     BSP_LCD_FillRect(10, 10, 40, 40);
+    BSP_LCD_FillCircle(100, 100, 20);
     
 }   
 void lubdub()
@@ -89,7 +92,8 @@ int main()
 
     printf("Data in Dest is ...%x %x %x\n", pDest[0], pDest[1], pDest[2] );
     //printf("Data in Source is ...%x %x %x\n", stlogo[0], stlogo[1], stlogo[2] );
-    
+    HAL_Delay(2000);
+    led1 = 0;
     display_init();
 
     while (1)

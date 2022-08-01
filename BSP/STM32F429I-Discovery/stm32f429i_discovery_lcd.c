@@ -1372,10 +1372,10 @@ static void FillBuffer(uint32_t LayerIndex, void * pDst, uint32_t xSize, uint32_
   {
     if(HAL_DMA2D_ConfigLayer(&Dma2dHandler, LayerIndex) == HAL_OK) 
     {
-      if (HAL_DMA2D_Start(&Dma2dHandler, ColorIndex, (uint32_t)pDst, xSize, ySize) == HAL_OK)
+      if (HAL_DMA2D_Start_IT(&Dma2dHandler, ColorIndex, (uint32_t)pDst, xSize, ySize) == HAL_OK)
       {
         /* Polling For DMA transfer */  
-        HAL_DMA2D_PollForTransfer(&Dma2dHandler, 10);
+        //HAL_DMA2D_PollForTransfer(&Dma2dHandler, 10);
       }
     }
   } 
