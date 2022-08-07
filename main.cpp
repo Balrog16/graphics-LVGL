@@ -95,6 +95,34 @@ void my_input_read(lv_indev_drv_t * drv, lv_indev_data_t*data)
   }
 }
 
+static lv_obj_t * label;
+
+static void slider_event_cb(lv_event_t * e)
+{
+    lv_obj_t * slider = lv_event_get_target(e);
+
+    /*Refresh the text*/
+    lv_label_set_text_fmt(label, "%"LV_PRId32, lv_slider_get_value(slider));
+    lv_obj_align_to(label, slider, LV_ALIGN_OUT_TOP_MID, 0, -15);    /*Align top of the slider*/
+}
+
+/**
+ * Create a slider and write its value on a label.
+ */
+void lv_example_get_started_3(void)
+{
+    /*Create a slider in the center of the display*/
+    lv_obj_t * slider = lv_slider_create(lv_scr_act());
+    lv_obj_set_width(slider, 200);                          /*Set the width*/
+    lv_obj_center(slider);                                  /*Align to the center of the parent (screen)*/
+    lv_obj_add_event_cb(slider, slider_event_cb, LV_EVENT_VALUE_CHANGED, NULL);     /*Assign an event function*/
+
+    /*Create a label above the slider*/
+    label = lv_label_create(lv_scr_act());
+    lv_label_set_text(label, "0");
+    lv_obj_align_to(label, slider, LV_ALIGN_OUT_TOP_MID, 0, -15);    /*Align top of the slider*/
+}
+
 void display_init()
 {
     auto ret = 0U;
@@ -213,7 +241,8 @@ int main()
         /*Register the driver in LVGL and save the created input device object*/
         lv_indev_t *my_indev = lv_indev_drv_register(&indev_drv);
 
-    lv_example_btn_1();
+    //lv_example_btn_1();
+    lv_example_get_started_3();
 
     while (1)
     {
